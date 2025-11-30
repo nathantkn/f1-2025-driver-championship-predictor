@@ -92,8 +92,18 @@ driver_data_df = driver_data_df.drop(columns=['wins_before'])
 
 print(f"Prepared data for {len(driver_data_df)} drivers")
 
-# Define the 2 remaining races (removed Qatar Sprint)
+# Define the 3 remaining races (Qatar Sprint + Qatar GP + Abu Dhabi GP)
 remaining_races = [
+    {
+        'raceId': 2167,  # Sprint race ID (GP ID + 1000)
+        'round': 23,
+        'circuitId': 78,
+        'circuit_name': 'qatar',
+        'name': 'Qatar Grand Prix Sprint',
+        'date': '2025-11-29',
+        'is_sprint_weekend': 1,
+        'prev_raceId': 1166
+    },
     {
         'raceId': 1168,
         'round': 24,
@@ -102,7 +112,7 @@ remaining_races = [
         'name': 'Qatar Grand Prix',
         'date': '2025-11-30',
         'is_sprint_weekend': 0,
-        'prev_raceId': 1166
+        'prev_raceId': 2167  # Previous is now the sprint
     },
     {
         'raceId': 1169,
@@ -160,9 +170,9 @@ remaining_df = remaining_df[columns_order]
 
 # Save to CSV
 remaining_df.to_csv('data-cleaned/remaining_races.csv', index=False)
-print(f"\n✅ Created remaining_races.csv with {len(remaining_df)} entries ({len(remaining_df)//2} drivers × 2 races)")
+print(f"\n✅ Created remaining_races.csv with {len(remaining_df)} entries ({len(remaining_df)//3} drivers × 3 races)")
 print(f"   Columns: {len(remaining_df.columns)}")
-print(f"   Races: Round 24 (Qatar GP), Round 25 (Abu Dhabi GP)")
+print(f"   Races: Round 23 (Qatar Sprint), Round 24 (Qatar GP), Round 25 (Abu Dhabi GP)")
 
 # Also update races.csv if needed
 existing_race_ids = set(races['raceId'].values)

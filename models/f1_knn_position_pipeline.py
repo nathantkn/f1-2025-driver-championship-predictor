@@ -229,27 +229,19 @@ print("\nStep 9: Projecting 2025 championship...")
 joblib.dump(best_model, 'trained_knn_position_model.joblib')
 print("Saved trained model to: trained_knn_position_model.joblib")
 
-# Get current standings
+# Get current standings - calculate total points from all 2025 races
 drivers = pd.read_csv('data-raw/drivers.csv')
-current_standings = train_df[train_df['year'] == 2025].groupby('driverId').agg({
-    'cum_points_before': 'max',
-    'round': 'max'
-}).reset_index()
 
-# Add points from latest completed round
-latest_round_points = train_df[
-    (train_df['year'] == 2025) & 
-    (train_df['round'] == latest_2025_round)
-][['driverId', 'is_sprint_weekend', 'target_position']].copy()
-
-latest_round_points['points_scored'] = latest_round_points.apply(
+# Calculate actual points scored in each race
+races_2025 = train_df[train_df['year'] == 2025][['driverId', 'is_sprint_weekend', 'target_position']].copy()
+races_2025['points_scored'] = races_2025.apply(
     lambda row: position_to_points(row['target_position'], row['is_sprint_weekend']), axis=1
 )
 
-points_by_driver = latest_round_points.groupby('driverId')['points_scored'].sum().reset_index()
-current_standings = current_standings.merge(points_by_driver, on='driverId', how='left')
-current_standings['points_scored'] = current_standings['points_scored'].fillna(0)
-current_standings['total_points'] = current_standings['cum_points_before'] + current_standings['points_scored']
+current_standings = races_2025.groupby('driverId').agg({
+    'points_scored': 'sum'
+}).reset_index()
+current_standings.columns = ['driverId', 'total_points']
 
 current_standings = current_standings.merge(
     drivers[['driverId', 'forename', 'surname']], 
