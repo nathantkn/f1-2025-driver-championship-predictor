@@ -1,0 +1,13 @@
+{
+  "best_params": {
+    "classifier__metric": "euclidean",
+    "classifier__n_neighbors": 41,
+    "classifier__weights": "distance"
+  },
+  "best_cv_logloss": 1.5502801171402278,
+  "train_logloss": 0.0002027504808497904,
+  "train_macro_f1": 0.9998493686729493,
+  "loocv_logloss": 1.5103368021325922,
+  "training_samples": 6850,
+  "holdout_samples": 69
+}
