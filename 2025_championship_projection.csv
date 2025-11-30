@@ -1,17 +1,17 @@
 driverId,total_points,forename,surname,driver_name,projected_points,final_projected_points,projected_position
 846,390,Lando,Norris,Lando Norris,57,447,1
-830,366,Max,Verstappen,Max Verstappen,41,407,2
-857,366,Oscar,Piastri,Oscar Piastri,28,394,3
-847,294,George,Russell,George Russell,38,332,4
+830,366,Max,Verstappen,Max Verstappen,35,401,2
+857,366,Oscar,Piastri,Oscar Piastri,31,397,3
+847,294,George,Russell,George Russell,41,335,4
 844,226,Charles,Leclerc,Charles Leclerc,21,247,5
 1,152,Lewis,Hamilton,Lewis Hamilton,14,166,6
 863,137,Kimi,Antonelli,Kimi Antonelli,24,161,7
-848,73,Alexander,Albon,Alexander Albon,0,73,8
+848,73,Alexander,Albon,Alexander Albon,1,74,8
 864,51,Isack,Hadjar,Isack Hadjar,9,60,9
 807,49,Nico,Hülkenberg,Nico Hülkenberg,0,49,10
 832,48,Carlos,Sainz,Carlos Sainz,0,48,11
 4,40,Fernando,Alonso,Fernando Alonso,4,44,12
-860,41,Oliver,Bearman,Oliver Bearman,2,43,13
+860,41,Oliver,Bearman,Oliver Bearman,1,42,13
 859,36,Liam,Lawson,Liam Lawson,0,36,14
 839,32,Esteban,Ocon,Esteban Ocon,0,32,15
 840,32,Lance,Stroll,Lance Stroll,0,32,16
