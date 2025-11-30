@@ -15,10 +15,10 @@ races = pd.read_csv('data-raw/races.csv')
 results = pd.read_csv('data-raw/results.csv')
 constructors = pd.read_csv('data-raw/constructors.csv')
 
-# Get ALL drivers who competed in 2025 season (use latest appearance for each)
+# Get ALL drivers who competed in 2025 season (use latest appearance for each driver)
 drivers_2025 = base[base['year'] == 2025].copy()
-# Get the most recent entry for each driver-constructor combination
-last_round_data = drivers_2025.sort_values('round').groupby(['driverId', 'constructorId']).tail(1).copy()
+# Get the most recent entry for EACH DRIVER (to get their current team)
+last_round_data = drivers_2025.sort_values('round').groupby('driverId').tail(1).copy()
 print(f"Found {len(last_round_data)} drivers in 2025 season")
 
 # Get results from round 22 to update standings
@@ -92,18 +92,8 @@ driver_data_df = driver_data_df.drop(columns=['wins_before'])
 
 print(f"Prepared data for {len(driver_data_df)} drivers")
 
-# Define the 3 remaining races
+# Define the 2 remaining races (removed Qatar Sprint)
 remaining_races = [
-    {
-        'raceId': 1167,
-        'round': 23,
-        'circuitId': 78,
-        'circuit_name': 'qatar',
-        'name': 'Qatar Grand Prix Sprint',
-        'date': '2025-11-29',
-        'is_sprint_weekend': 1,
-        'prev_raceId': 1166
-    },
     {
         'raceId': 1168,
         'round': 24,
@@ -111,8 +101,8 @@ remaining_races = [
         'circuit_name': 'qatar',
         'name': 'Qatar Grand Prix',
         'date': '2025-11-30',
-        'is_sprint_weekend': 1,
-        'prev_raceId': 1167
+        'is_sprint_weekend': 0,
+        'prev_raceId': 1166
     },
     {
         'raceId': 1169,
@@ -170,9 +160,9 @@ remaining_df = remaining_df[columns_order]
 
 # Save to CSV
 remaining_df.to_csv('data-cleaned/remaining_races.csv', index=False)
-print(f"\n✅ Created remaining_races.csv with {len(remaining_df)} entries ({len(remaining_df)//3} drivers × 3 races)")
+print(f"\n✅ Created remaining_races.csv with {len(remaining_df)} entries ({len(remaining_df)//2} drivers × 2 races)")
 print(f"   Columns: {len(remaining_df.columns)}")
-print(f"   Races: Round 23 (Qatar Sprint), Round 24 (Qatar GP), Round 25 (Abu Dhabi GP)")
+print(f"   Races: Round 24 (Qatar GP), Round 25 (Abu Dhabi GP)")
 
 # Also update races.csv if needed
 existing_race_ids = set(races['raceId'].values)
