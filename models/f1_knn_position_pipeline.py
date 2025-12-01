@@ -435,13 +435,113 @@ if len(holdout_df) > 0:
     final_projection.to_csv('2025_championship_projection.csv', index=False)
     print("\nSaved championship projection to: 2025_championship_projection.csv")
     
-    # Save detailed predictions
-    all_predictions_detailed = all_predictions_df.merge(drivers[['driverId', 'surname']], on='driverId')
+    # Save detailed predictions with driver names and race info
+    races_info = pd.read_csv('data-raw/races.csv')
+    all_predictions_detailed = all_predictions_df.merge(
+        drivers[['driverId', 'forename', 'surname']], on='driverId'
+    )
+    all_predictions_detailed['driver_name'] = all_predictions_detailed['forename'] + ' ' + all_predictions_detailed['surname']
+    
+    # Add race names
+    remaining_race_info = holdout_df[['round', 'raceId']].drop_duplicates()
+    remaining_race_info = remaining_race_info.merge(
+        races_info[['raceId', 'name', 'circuitId']], on='raceId', how='left'
+    )
+    all_predictions_detailed = all_predictions_detailed.merge(
+        remaining_race_info[['round', 'name']], on='round', how='left'
+    )
+    all_predictions_detailed = all_predictions_detailed.rename(columns={'name': 'race_name'})
+    
+    # Reorder columns for better readability
+    output_cols = ['round', 'race_name', 'driver_name', 'predicted_position', 'predicted_points', 'is_sprint_weekend']
+    all_predictions_detailed = all_predictions_detailed[output_cols].drop_duplicates()
+    all_predictions_detailed = all_predictions_detailed.sort_values(['round', 'predicted_position'])
+    
     all_predictions_detailed.to_csv('remaining_races_predictions.csv', index=False)
-    print("Saved detailed predictions to: remaining_races_predictions.csv")
+    print("\nSaved detailed predictions to: remaining_races_predictions.csv")
+    
+    # Print race-by-race results
+    print("\n" + "="*70)
+    print("RACE-BY-RACE PREDICTION RESULTS")
+    print("="*70)
+    
+    for round_num in remaining_rounds:
+        round_preds = all_predictions_detailed[all_predictions_detailed['round'] == round_num]
+        race_name = round_preds['race_name'].iloc[0]
+        is_sprint = round_preds['is_sprint_weekend'].iloc[0]
+        race_type = "SPRINT RACE" if is_sprint else "GRAND PRIX"
+        
+        print(f"\n{race_type}: Round {round_num} - {race_name}")
+        print("-" * 70)
+        print(f"{'Pos':<5} {'Driver':<25} {'Points':<8}")
+        print("-" * 70)
+        
+        top_10 = round_preds.head(10)
+        for _, row in top_10.iterrows():
+            print(f"{int(row['predicted_position']):<5} {row['driver_name']:<25} {int(row['predicted_points']):<8}")
+        
+        if len(round_preds) > 10:
+            print(f"... and {len(round_preds) - 10} more drivers")
+    
+    # Calculate and display evaluation metrics
+    print("\n" + "="*70)
+    print("MODEL EVALUATION METRICS")
+    print("="*70)
+    
+    # Training metrics (already calculated)
+    print(f"\n1. POSITION PREDICTION ACCURACY (Training Data)")
+    print(f"   - Mean Absolute Error (MAE): {train_mae:.4f} positions")
+    print(f"   - Root Mean Squared Error (RMSE): {train_rmse:.4f} positions")
+    print(f"   - Cross-Validation MAE: {-grid_search.best_score_:.4f} positions")
+    
+    # Top-10 accuracy on training data
+    y_train_pred_rounded = np.round(y_train_pred)
+    top10_actual = (y_train <= 10).astype(int)
+    top10_pred = (y_train_pred_rounded <= 10).astype(int)
+    top10_accuracy = (top10_actual == top10_pred).mean()
+    
+    print(f"\n2. TOP-10 CLASSIFICATION ACCURACY (Training Data)")
+    print(f"   - Accuracy: {top10_accuracy:.2%}")
+    
+    # Podium accuracy
+    podium_actual = (y_train <= 3).astype(int)
+    podium_pred = (y_train_pred_rounded <= 3).astype(int)
+    podium_accuracy = (podium_actual == podium_pred).mean()
+    
+    print(f"\n3. PODIUM CLASSIFICATION ACCURACY (Training Data)")
+    print(f"   - Accuracy: {podium_accuracy:.2%}")
+    
+    # Championship prediction metrics
+    print(f"\n4. CHAMPIONSHIP PREDICTION SUMMARY")
+    print(f"   - Remaining races predicted: {len(remaining_rounds)}")
+    print(f"   - Total drivers: {len(final_projection)}")
+    print(f"   - Predicted champion: {final_projection.iloc[0]['driver_name']} ({final_projection.iloc[0]['final_projected_points']:.0f} pts)")
+    print(f"   - Championship margin: {final_projection.iloc[0]['final_projected_points'] - final_projection.iloc[1]['final_projected_points']:.0f} pts")
+    
+    # Points distribution
+    total_predicted_points = all_predictions_df['predicted_points'].sum()
+    avg_points_per_race = all_predictions_df.groupby('round')['predicted_points'].sum().mean()
+    
+    print(f"\n5. POINTS DISTRIBUTION")
+    print(f"   - Total points awarded (predictions): {total_predicted_points:.0f}")
+    print(f"   - Average points per race: {avg_points_per_race:.2f}")
+    print(f"   - Expected points per race (21 drivers): {25+18+15+12+10+8+6+4+2+1:.0f} (GP) or {8+7+6+5+4+3+2+1:.0f} (Sprint)")
+    
+    # Feature importance (based on weights)
+    print(f"\n6. FEATURE WEIGHTING")
+    print(f"   - Recent form features (grid, last 3 avg): 3.0x weight")
+    print(f"   - Season standing (points, position, wins): 2.0x weight")
+    print(f"   - Other features (DNF rate, track history): 1.0x weight")
+    
+    print(f"\n7. MODEL CONFIGURATION")
+    print(f"   - Algorithm: K-Nearest Neighbors Regression")
+    print(f"   - Best parameters: {grid_search.best_params_}")
+    print(f"   - Training samples: {len(train_df)}")
+    print(f"   - Feature count: {len(categorical_features + passthrough_features + numeric_features)}")
+    
 else:
     print("\nNo remaining 2025 races to project.")
 
-print("\n" + "="*50)
-print("Pipeline complete!")
-print("="*50)
+print("\n" + "="*70)
+print("PIPELINE COMPLETE!")
+print("="*70)
