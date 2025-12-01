@@ -1,64 +1,64 @@
 round,race_name,driver_name,predicted_position,predicted_points,is_sprint_weekend
 23,Qatar Grand Prix Sprint,Max Verstappen,1,8,1
 23,Qatar Grand Prix Sprint,Lando Norris,2,7,1
-23,Qatar Grand Prix Sprint,Kimi Antonelli,3,6,1
-23,Qatar Grand Prix Sprint,George Russell,4,5,1
-23,Qatar Grand Prix Sprint,Oscar Piastri,5,4,1
-23,Qatar Grand Prix Sprint,Charles Leclerc,6,3,1
+23,Qatar Grand Prix Sprint,Oscar Piastri,3,6,1
+23,Qatar Grand Prix Sprint,Charles Leclerc,4,5,1
+23,Qatar Grand Prix Sprint,George Russell,5,4,1
+23,Qatar Grand Prix Sprint,Kimi Antonelli,6,3,1
 23,Qatar Grand Prix Sprint,Lewis Hamilton,7,2,1
-23,Qatar Grand Prix Sprint,Isack Hadjar,8,1,1
-23,Qatar Grand Prix Sprint,Carlos Sainz,9,0,1
+23,Qatar Grand Prix Sprint,Carlos Sainz,8,1,1
+23,Qatar Grand Prix Sprint,Isack Hadjar,9,0,1
 23,Qatar Grand Prix Sprint,Fernando Alonso,10,0,1
 23,Qatar Grand Prix Sprint,Yuki Tsunoda,11,0,1
 23,Qatar Grand Prix Sprint,Oliver Bearman,12,0,1
 23,Qatar Grand Prix Sprint,Liam Lawson,13,0,1
-23,Qatar Grand Prix Sprint,Nico Hülkenberg,14,0,1
-23,Qatar Grand Prix Sprint,Lance Stroll,15,0,1
-23,Qatar Grand Prix Sprint,Alexander Albon,16,0,1
-23,Qatar Grand Prix Sprint,Esteban Ocon,17,0,1
+23,Qatar Grand Prix Sprint,Lance Stroll,14,0,1
+23,Qatar Grand Prix Sprint,Nico Hülkenberg,15,0,1
+23,Qatar Grand Prix Sprint,Esteban Ocon,16,0,1
+23,Qatar Grand Prix Sprint,Alexander Albon,17,0,1
 23,Qatar Grand Prix Sprint,Pierre Gasly,18,0,1
-23,Qatar Grand Prix Sprint,Jack Doohan,19,0,1
-23,Qatar Grand Prix Sprint,Franco Colapinto,20,0,1
+23,Qatar Grand Prix Sprint,Franco Colapinto,19,0,1
+23,Qatar Grand Prix Sprint,Jack Doohan,20,0,1
 23,Qatar Grand Prix Sprint,Gabriel Bortoleto,21,0,1
-24,Qatar Grand Prix,Lando Norris,1,25,0
+24,Qatar Grand Prix,Max Verstappen,1,25,0
 24,Qatar Grand Prix,George Russell,2,18,0
-24,Qatar Grand Prix,Oscar Piastri,3,15,0
-24,Qatar Grand Prix,Max Verstappen,4,12,0
-24,Qatar Grand Prix,Kimi Antonelli,5,10,0
-24,Qatar Grand Prix,Charles Leclerc,6,8,0
+24,Qatar Grand Prix,Lando Norris,3,15,0
+24,Qatar Grand Prix,Oscar Piastri,4,12,0
+24,Qatar Grand Prix,Charles Leclerc,5,10,0
+24,Qatar Grand Prix,Kimi Antonelli,6,8,0
 24,Qatar Grand Prix,Lewis Hamilton,7,6,0
 24,Qatar Grand Prix,Isack Hadjar,8,4,0
 24,Qatar Grand Prix,Fernando Alonso,9,2,0
-24,Qatar Grand Prix,Alexander Albon,10,1,0
+24,Qatar Grand Prix,Carlos Sainz,10,1,0
 24,Qatar Grand Prix,Liam Lawson,11,0,0
 24,Qatar Grand Prix,Oliver Bearman,12,0,0
 24,Qatar Grand Prix,Lance Stroll,13,0,0
-24,Qatar Grand Prix,Carlos Sainz,14,0,0
-24,Qatar Grand Prix,Yuki Tsunoda,15,0,0
-24,Qatar Grand Prix,Pierre Gasly,16,0,0
+24,Qatar Grand Prix,Alexander Albon,14,0,0
+24,Qatar Grand Prix,Pierre Gasly,15,0,0
+24,Qatar Grand Prix,Yuki Tsunoda,16,0,0
 24,Qatar Grand Prix,Nico Hülkenberg,17,0,0
-24,Qatar Grand Prix,Esteban Ocon,18,0,0
-24,Qatar Grand Prix,Franco Colapinto,19,0,0
-24,Qatar Grand Prix,Jack Doohan,20,0,0
-24,Qatar Grand Prix,Gabriel Bortoleto,21,0,0
+24,Qatar Grand Prix,Franco Colapinto,18,0,0
+24,Qatar Grand Prix,Jack Doohan,19,0,0
+24,Qatar Grand Prix,Gabriel Bortoleto,20,0,0
+24,Qatar Grand Prix,Esteban Ocon,21,0,0
 25,Abu Dhabi Grand Prix,Lando Norris,1,25,0
-25,Abu Dhabi Grand Prix,George Russell,2,18,0
-25,Abu Dhabi Grand Prix,Max Verstappen,3,15,0
+25,Abu Dhabi Grand Prix,Max Verstappen,2,18,0
+25,Abu Dhabi Grand Prix,George Russell,3,15,0
 25,Abu Dhabi Grand Prix,Oscar Piastri,4,12,0
-25,Abu Dhabi Grand Prix,Kimi Antonelli,5,10,0
-25,Abu Dhabi Grand Prix,Charles Leclerc,6,8,0
-25,Abu Dhabi Grand Prix,Lewis Hamilton,7,6,0
+25,Abu Dhabi Grand Prix,Lewis Hamilton,5,10,0
+25,Abu Dhabi Grand Prix,Kimi Antonelli,6,8,0
+25,Abu Dhabi Grand Prix,Charles Leclerc,7,6,0
 25,Abu Dhabi Grand Prix,Isack Hadjar,8,4,0
 25,Abu Dhabi Grand Prix,Fernando Alonso,9,2,0
-25,Abu Dhabi Grand Prix,Oliver Bearman,10,1,0
-25,Abu Dhabi Grand Prix,Carlos Sainz,11,0,0
-25,Abu Dhabi Grand Prix,Pierre Gasly,12,0,0
-25,Abu Dhabi Grand Prix,Alexander Albon,13,0,0
-25,Abu Dhabi Grand Prix,Yuki Tsunoda,14,0,0
-25,Abu Dhabi Grand Prix,Liam Lawson,15,0,0
+25,Abu Dhabi Grand Prix,Carlos Sainz,10,1,0
+25,Abu Dhabi Grand Prix,Pierre Gasly,11,0,0
+25,Abu Dhabi Grand Prix,Oliver Bearman,12,0,0
+25,Abu Dhabi Grand Prix,Nico Hülkenberg,13,0,0
+25,Abu Dhabi Grand Prix,Alexander Albon,14,0,0
+25,Abu Dhabi Grand Prix,Yuki Tsunoda,15,0,0
 25,Abu Dhabi Grand Prix,Lance Stroll,16,0,0
-25,Abu Dhabi Grand Prix,Esteban Ocon,17,0,0
-25,Abu Dhabi Grand Prix,Nico Hülkenberg,18,0,0
-25,Abu Dhabi Grand Prix,Jack Doohan,19,0,0
-25,Abu Dhabi Grand Prix,Gabriel Bortoleto,20,0,0
+25,Abu Dhabi Grand Prix,Liam Lawson,17,0,0
+25,Abu Dhabi Grand Prix,Esteban Ocon,18,0,0
+25,Abu Dhabi Grand Prix,Gabriel Bortoleto,19,0,0
+25,Abu Dhabi Grand Prix,Jack Doohan,20,0,0
 25,Abu Dhabi Grand Prix,Franco Colapinto,21,0,0

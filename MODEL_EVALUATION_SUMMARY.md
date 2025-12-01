@@ -3,7 +3,9 @@
 ## Executive Summary
 This document provides a comprehensive evaluation of the K-Nearest Neighbors (K-NN) regression model used to predict the 2025 Formula 1 Driver's Championship winner based on remaining races.
 
-**Final Prediction:** Lando Norris wins the 2025 championship with 447 points, ahead of Max Verstappen (401 pts) by 46 points.
+**Final Prediction:** Lando Norris wins the 2025 championship with 437 points, ahead of Max Verstappen (417 pts) by 20 points.
+
+**Model Version:** Updated feature weights based on Qatar race analysis (see MODEL_IMPROVEMENT_RESULTS.md for details)
 
 ---
 

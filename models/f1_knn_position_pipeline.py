@@ -80,32 +80,47 @@ print("\nStep 8: Building K-NN regression pipeline...")
 categorical_features = ['circuitId']
 passthrough_features = ['is_sprint_weekend']
 
-# High importance: Recent form and current grid
+# UPDATED WEIGHTS BASED ON QATAR RACE ANALYSIS:
+# Track history: 2.5x (increased from 1.0x)
+# Recent form: 2.0x (decreased from 3.0x)
+# Grid position: 1.5x (decreased from 3.0x)
+# Season standing: 1.5x (decreased from 2.0x)
+# Other: 1.0x (same)
+
+# High importance: Track-specific performance (2.5x weight)
+track_features = [
+    'drv_track_prev_avg_points',
+    'drv_track_prev_starts',
+]
+
+# Medium-high importance: Recent form (2.0x weight)
 recent_form_features = [
-    'grid',
     'drv_last3_avg_points',
     'drv_last3_avg_grid',
     'drv_last3_top10_rate',
 ]
 
-# Medium importance: Season standing
+# Medium importance: Grid position (1.5x weight)
+grid_features = [
+    'grid',
+]
+
+# Medium importance: Season standing (1.5x weight)
 season_standing_features = [
     'cum_points_before',
     'position_before',
     'wins_before',
 ]
 
-# Lower importance: Other features
+# Lower importance: Other features (1.0x weight)
 other_features = [
     'drv_last3_dnf_rate',
     'tm_last3_avg_points',
     'tm_last3_top10_rate',
-    'drv_track_prev_starts',
-    'drv_track_prev_avg_points'
 ]
 
 # Combine all numeric features
-numeric_features = recent_form_features + season_standing_features + other_features
+numeric_features = track_features + recent_form_features + grid_features + season_standing_features + other_features
 
 # Fill NaNs in numeric features with 0 (for early-career drivers)
 for col in numeric_features:
@@ -117,7 +132,9 @@ preprocessor = ColumnTransformer(
     transformers=[
         ('cat', OneHotEncoder(handle_unknown='ignore', sparse_output=False), categorical_features),
         ('pass', 'passthrough', passthrough_features),
+        ('track', StandardScaler(), track_features),
         ('recent', StandardScaler(), recent_form_features),
+        ('grid', StandardScaler(), grid_features),
         ('season', StandardScaler(), season_standing_features),
         ('other', StandardScaler(), other_features)
     ],
@@ -126,9 +143,12 @@ preprocessor = ColumnTransformer(
 
 # Custom feature weighting wrapper
 class WeightedFeatureTransformer(BaseEstimator, TransformerMixin):
-    def __init__(self, preprocessor, recent_weight=3.0, season_weight=2.0, other_weight=0.1):
+    def __init__(self, preprocessor, track_weight=2.5, recent_weight=2.0, grid_weight=1.5, 
+                 season_weight=1.5, other_weight=1.0):
         self.preprocessor = preprocessor
+        self.track_weight = track_weight
         self.recent_weight = recent_weight
+        self.grid_weight = grid_weight
         self.season_weight = season_weight
         self.other_weight = other_weight
         
@@ -136,7 +156,9 @@ class WeightedFeatureTransformer(BaseEstimator, TransformerMixin):
         self.preprocessor.fit(X, y)
         self.cat_features_ = len(self.preprocessor.named_transformers_['cat'].get_feature_names_out())
         self.pass_features_ = len(passthrough_features)
+        self.track_features_ = len(track_features)
         self.recent_features_ = len(recent_form_features)
+        self.grid_features_ = len(grid_features)
         self.season_features_ = len(season_standing_features)
         self.other_features_ = len(other_features)
         return self
@@ -149,14 +171,27 @@ class WeightedFeatureTransformer(BaseEstimator, TransformerMixin):
         end_idx = self.cat_features_ + self.pass_features_
         start_idx = end_idx
         
+        # Track features (2.5x)
+        end_idx = start_idx + self.track_features_
+        X_transformed[:, start_idx:end_idx] *= self.track_weight
+        start_idx = end_idx
+        
+        # Recent form features (2.0x)
         end_idx = start_idx + self.recent_features_
         X_transformed[:, start_idx:end_idx] *= self.recent_weight
         start_idx = end_idx
         
+        # Grid features (1.5x)
+        end_idx = start_idx + self.grid_features_
+        X_transformed[:, start_idx:end_idx] *= self.grid_weight
+        start_idx = end_idx
+        
+        # Season standing features (1.5x)
         end_idx = start_idx + self.season_features_
         X_transformed[:, start_idx:end_idx] *= self.season_weight
         start_idx = end_idx
         
+        # Other features (1.0x)
         end_idx = start_idx + self.other_features_
         X_transformed[:, start_idx:end_idx] *= self.other_weight
         
@@ -528,10 +563,12 @@ if len(holdout_df) > 0:
     print(f"   - Expected points per race (21 drivers): {25+18+15+12+10+8+6+4+2+1:.0f} (GP) or {8+7+6+5+4+3+2+1:.0f} (Sprint)")
     
     # Feature importance (based on weights)
-    print(f"\n6. FEATURE WEIGHTING")
-    print(f"   - Recent form features (grid, last 3 avg): 3.0x weight")
-    print(f"   - Season standing (points, position, wins): 2.0x weight")
-    print(f"   - Other features (DNF rate, track history): 1.0x weight")
+    print(f"\n6. FEATURE WEIGHTING (UPDATED BASED ON QATAR ANALYSIS)")
+    print(f"   - Track history (drv_track_prev_avg_points, prev_starts): 2.5x weight")
+    print(f"   - Recent form (drv_last3_avg_points, avg_grid, top10_rate): 2.0x weight")
+    print(f"   - Grid position: 1.5x weight")
+    print(f"   - Season standing (points, position, wins): 1.5x weight")
+    print(f"   - Other features (DNF rate, teammate form): 1.0x weight")
     
     print(f"\n7. MODEL CONFIGURATION")
     print(f"   - Algorithm: K-Nearest Neighbors Regression")
