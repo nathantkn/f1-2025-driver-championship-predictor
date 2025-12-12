@@ -1,0 +1,15 @@
+{
+  "model": "KNN",
+  "sprint": {
+    "MAE": 1.05,
+    "MSE": 3.43,
+    "RMSE": 1.85,
+    "Top8_Accuracy": 28.6
+  },
+  "grand_prix": {
+    "MAE": 2.76,
+    "MSE": 21.62,
+    "RMSE": 4.65,
+    "Top10_Accuracy": 38.1
+  }
+}

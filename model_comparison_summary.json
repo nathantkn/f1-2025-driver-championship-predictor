@@ -1,0 +1,44 @@
+{
+  "comparison_date": "2025-12-11",
+  "models_compared": [
+    "KNN",
+    "XGBoost"
+  ],
+  "sprint_race": {
+    "knn": {
+      "MAE": 1.05,
+      "MSE": 3.43,
+      "RMSE": 1.85,
+      "Top8_Accuracy": 28.6
+    },
+    "xgboost": {
+      "MAE": 1.33,
+      "MSE": 4.76,
+      "RMSE": 2.18,
+      "Top8_Accuracy": 23.8
+    },
+    "winner_count": {
+      "knn": 4,
+      "xgboost": 0
+    }
+  },
+  "grand_prix": {
+    "knn": {
+      "MAE": 2.76,
+      "MSE": 21.62,
+      "RMSE": 4.65,
+      "Top10_Accuracy": 38.1
+    },
+    "xgboost": {
+      "MAE": 3.81,
+      "MSE": 39.14,
+      "RMSE": 6.26,
+      "Top10_Accuracy": 33.3
+    },
+    "winner_count": {
+      "knn": 4,
+      "xgboost": 0
+    }
+  },
+  "overall_winner": "KNN"
+}

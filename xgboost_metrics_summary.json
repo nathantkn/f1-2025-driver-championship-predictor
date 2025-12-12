@@ -1,0 +1,15 @@
+{
+  "model": "XGBoost",
+  "sprint": {
+    "MAE": 1.33,
+    "MSE": 4.76,
+    "RMSE": 2.18,
+    "Top8_Accuracy": 23.8
+  },
+  "grand_prix": {
+    "MAE": 3.81,
+    "MSE": 39.14,
+    "RMSE": 6.26,
+    "Top10_Accuracy": 33.3
+  }
+}

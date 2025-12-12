@@ -6,8 +6,8 @@ import os
 if os.path.basename(os.getcwd()) == "scripts":
     os.chdir("..")
 
-# 1) Load your predictions
-pred = pd.read_csv("remaining_races_predictions.csv")
+# 1) Load XGBoost predictions
+pred = pd.read_csv("xgboost_remaining_races_predictions.csv")
 
 # 2) Build ACTUALS for Sprint (R23) and GP (R24)
 
@@ -37,7 +37,7 @@ act_gp = pd.DataFrame([
 def norm_name(s):
     return str(s).split()[-1].lower()  # naive: use surname
 
-# Use the correct column name from remaining_races_predictions.csv
+# Use the correct column name from xgboost_remaining_races_predictions.csv
 if "driver_name" in pred.columns:
     pred["driverKey"] = pred["driver_name"].apply(norm_name)
 elif "surname" in pred.columns:
@@ -90,18 +90,29 @@ def metrics(df, top_flag_true, top_flag_pred):
 mae_s, mse_s, rmse_s, acc_s, big_s, flips_s = metrics(pred_sprint, "y_true_top8", "y_pred_top8")
 mae_g, mse_g, rmse_g, acc_g, big_g, flips_g = metrics(pred_gp, "y_true_top10", "y_pred_top10")
 
-print("SPRINT (R23) — MAE:", mae_s, "MSE:", mse_s, "RMSE:", rmse_s, "Top-8 Acc:", acc_s)
-print(big_s)
-print("Top-8 misses:\n", flips_s[["driverKey","y_pred_points","y_true_points"]].head(10))
+print("="*60)
+print("XGBoost MODEL EVALUATION - QATAR 2025")
+print("="*60)
 
-print("\nGRAND PRIX (R24) — MAE:", mae_g, "MSE:", mse_g, "RMSE:", rmse_g, "Top-10 Acc:", acc_g)
-print(big_g)
-print("Top-10 misses:\n", flips_g[["driverKey","y_pred_points","y_true_points"]].head(10))
+print("\nSPRINT (R23) — MAE:", round(mae_s, 2), "MSE:", round(mse_s, 2), "RMSE:", round(rmse_s, 2), "Top-8 Acc:", f"{acc_s:.1%}")
+print("\nBiggest misses:")
+print(big_s.to_string(index=False))
+print("\nTop-8 prediction misses:")
+print(flips_s[["driverKey","y_pred_points","y_true_points"]].head(10).to_string(index=False))
+
+print("\n" + "-"*60)
+
+print("\nGRAND PRIX (R24) — MAE:", round(mae_g, 2), "MSE:", round(mse_g, 2), "RMSE:", round(rmse_g, 2), "Top-10 Acc:", f"{acc_g:.1%}")
+print("\nBiggest misses:")
+print(big_g.to_string(index=False))
+print("\nTop-10 prediction misses:")
+print(flips_g[["driverKey","y_pred_points","y_true_points"]].head(10).to_string(index=False))
+
+print("\n" + "="*60)
 
 # Save metrics summary
-import json
-knn_metrics_summary = {
-    "model": "KNN",
+metrics_summary = {
+    "model": "XGBoost",
     "sprint": {
         "MAE": round(mae_s, 2),
         "MSE": round(mse_s, 2),
@@ -116,7 +127,8 @@ knn_metrics_summary = {
     }
 }
 
-with open("knn_metrics_summary.json", "w") as f:
-    json.dump(knn_metrics_summary, f, indent=2)
+import json
+with open("xgboost_metrics_summary.json", "w") as f:
+    json.dump(metrics_summary, f, indent=2)
 
-print("\nMetrics saved to: knn_metrics_summary.json")
+print("\nMetrics saved to: xgboost_metrics_summary.json")
